@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LineBotWebHook
 {
-    interface AbstractReplyServiceFactory
+    interface IServiceFactory
     {
         IReplyService Create();
         

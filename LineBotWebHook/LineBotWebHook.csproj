@@ -82,10 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Interfaces\IServiceFactory.cs" />
+    <Compile Include="Services\AbstractService.cs" />
     <Compile Include="Services\BotAnswerService.cs" />
     <Compile Include="Factory\BotAnswerServiceFactory.cs" />
     <Compile Include="Api\LineController.cs" />
@@ -94,7 +98,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IReplyService.cs" />
-    <Compile Include="Factory\AbstractReplyServiceFactory.cs" />
     <Compile Include="Services\PushService.cs" />
     <Compile Include="Factory\PushServiceFactory.cs" />
     <Compile Include="Models\Event.cs" />

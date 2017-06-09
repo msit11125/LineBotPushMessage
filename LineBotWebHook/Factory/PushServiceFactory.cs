@@ -6,24 +6,27 @@ using System.Web;
 
 namespace LineBotWebHook
 {
-    public class PushServiceFactory:AbstractReplyServiceFactory
+    public class PushServiceFactory : IServiceFactory
     {
         private PushBody pushbody;
 
-        public PushServiceFactory(string to,string msg)
+        public PushServiceFactory(string to, string msg)
         {
-            pushbody = new PushBody()
+            if (pushbody == null)
             {
-                to = to,
-                messages = new[] {
+                pushbody = new PushBody()
+                {
+                    to = to,
+                    messages = new[] {
                             new SendMessage() {
                             type = "text",
                             text = msg
                         }
                 }
-            };
+                };
+            }
         }
-        
+
         public IReplyService Create()
         {
             return new PushService(pushbody);

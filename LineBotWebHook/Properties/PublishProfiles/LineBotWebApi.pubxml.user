@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/LineBotWebHook.dll">
-      <publishTime>06/02/2017 17:42:56</publishTime>
+      <publishTime>06/05/2017 15:21:21</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>06/15/2015 02:06:24</publishTime>

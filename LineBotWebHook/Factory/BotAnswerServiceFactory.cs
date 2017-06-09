@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LineBotWebHook
 {
-    public class BotAnswerServiceFactory : AbstractReplyServiceFactory
+    public class BotAnswerServiceFactory : IServiceFactory
     {
 
         private ReplyBody replyBody;

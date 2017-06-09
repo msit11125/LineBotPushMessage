@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,32 +12,30 @@ using System.Threading.Tasks;
 
 namespace LineSendCmd
 {
-    public class CallPushApi
+    public class PushMessageApi
     {
-        HttpClient client;
-        Object _locker = new object();
-        public CallPushApi()
-        {
-            lock (_locker)
-            {
-                if (client == null)
-                    client = new HttpClient();
-            }
-
-        }
+        //Singleton 貪婪單例模式
+        public static HttpClient client = new HttpClient();
+        public PushMessageApi(){}
 
         /// <summary>
         /// 傳送訊息
         /// </summary>
         /// <param name="msg">傳遞訊息</param>
         /// <returns></returns>
-        public async Task<HttpStatusCode> PushMessage(string msg)
+        public static async Task<HttpStatusCode> PushMessage(string senderID, string msg)
         {
             try
             {
                 var url = ConfigurationManager.AppSettings["PushWebApi"];
+
+                //傳送data
+                JObject jo = new JObject();
+                jo.Add("senderID", senderID);
+                jo.Add("message", msg);
+
                 //設定Header
-                var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(jo), Encoding.UTF8, "application/json");
 
                 var PostResult = await client.PostAsync(url, content);
 

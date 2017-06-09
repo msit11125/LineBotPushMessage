@@ -11,10 +11,10 @@ using System.Web.Configuration;
 
 namespace LineBotWebHook
 {
-    public class BotAnswerService : IReplyService
+    public class BotAnswerService : AbstractService
     {
         public const string API_URL = "https://api.line.me/v2/bot/message/reply";
-        private WebRequest request;
+
 
         public BotAnswerService(ReplyBody body)
         {
@@ -22,7 +22,7 @@ namespace LineBotWebHook
             request = WebRequest.Create(API_URL);
             request.Method = "POST";
             request.ContentType = "application/json";
-            request.Headers["Authorization"] = $"Bearer { WebConfigurationManager.AppSettings["ChannelAccessToken"] }";
+            request.Headers["Authorization"] = $"Bearer { _token }";
 
             //開始傳送Json
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -35,26 +35,5 @@ namespace LineBotWebHook
         }
 
 
-        /*
-               --- send message to LINE ---
-               return response data
-        */
-        public virtual string send()
-        {
-            string result = null;
-            try
-            {
-                WebResponse response = request.GetResponse();
-                using (var streamReader = new StreamReader(response.GetResponseStream()))
-                {
-                    result = streamReader.ReadToEnd();
-                }
-            }
-            catch (WebException ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-            return result;
-        }
     }
 }

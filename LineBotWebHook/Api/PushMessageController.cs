@@ -15,14 +15,11 @@ namespace LineBotWebHook.Api
     {
         [HttpPost]
         [Route] //http://{hostname}/PushMessage 
-        public IHttpActionResult Push([FromBody] string message)
+        public IHttpActionResult Push([FromBody]FromPostBody body)
         {
             try
             {
-                string senderID = "";
-                senderID = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/GroupID.txt"));
-
-                var PushService = new PushServiceFactory(senderID, message);
+                var PushService = new PushServiceFactory(body.senderID, body.message);
                 IReplyService botReply = PushService.Create();
                 botReply.send();
             }
@@ -34,5 +31,11 @@ namespace LineBotWebHook.Api
 
             return Ok("OK");
         }
+    }
+
+    public class FromPostBody
+    {
+        public string senderID { get; set; }
+        public string message { get; set; }
     }
 }

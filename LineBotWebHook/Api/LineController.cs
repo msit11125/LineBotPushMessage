@@ -34,27 +34,22 @@ namespace LineBotWebHook.Api
                                 break;
                             case SourceType.group:
                                 senderID = e.source.groupId;
-                                var PushService = new PushServiceFactory(senderID, "好棒棒 加入成功，大家今天都吃飽了嗎?");
+                                var PushService = new PushServiceFactory(senderID, "Bot加入成功，群組ID為 : " + senderID);
                                 var botReply = PushService.Create();
                                 botReply.send();
-                                //紀錄senderID
-                                if (!System.IO.File.Exists(HostingEnvironment.MapPath("~/GroupID.txt")))
-                                {
-                                    System.IO.File.AppendAllText(HostingEnvironment.MapPath("~/GroupID.txt"), senderID);
-                                }
+
                                 break;
                         }
 
-                        System.IO.File.AppendAllText(HostingEnvironment.MapPath("~/MyTest.txt"), "傳遞者ID " + senderID + ", 內容 " + e.message.text??"");
                     }
-                    else if (e.type == EventType.message) //發生對話事件
-                    {
+                    //else if (e.type == EventType.message) //發生對話事件
+                    //{
 
-                        var BotAnsService = new BotAnswerServiceFactory(e.replyToken, procMessage(e.message));
-                        var botReply = BotAnsService.Create();
-                        botReply.send();
+                    //    var BotAnsService = new BotAnswerServiceFactory(e.replyToken, procMessage(e.message));
+                    //    var botReply = BotAnsService.Create();
+                    //    botReply.send();
 
-                    }
+                    //}
                 }
             }
             catch (Exception ex)
@@ -67,6 +62,12 @@ namespace LineBotWebHook.Api
 
             return Ok("OK");
         }
+
+
+
+
+
+
 
 
         private List<SendMessage> procMessage(ReceiveMessage m)
@@ -84,14 +85,10 @@ namespace LineBotWebHook.Api
                     break;
                 case MessageType.text:
                     sm.text = m.text;
-                    if(m.text.Contains("肥宅"))
-                    {
-                        sm.text = "你誤會了，我是指在座的各位都是肥宅。";
-                    }
                     break;
                 default:
                     sm.type = Enum.GetName(typeof(MessageType), MessageType.text);
-                    sm.text = "很抱歉，我只是一隻回音機器肥宅，目前只能回覆基本貼圖與文字訊息喔！";
+                    sm.text = "很抱歉，我只是一隻回音機器，目前只能回覆基本貼圖與文字訊息喔！";
                     break;
             }
             msgs.Add(sm);
